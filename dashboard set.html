@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Garment - KDKMP & Papua</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        table { font-size: 13px; border-collapse: collapse; width: 100%; }
+        th, td { padding: 12px 16px; text-align: left; border-bottom: 1px solid #f1f5f9; white-space: nowrap; }
+        th { background-color: #f8fafc; color: #334155; position: sticky; top: 0; z-index: 10; font-weight: 600; text-transform: uppercase; font-size: 11px; letter-spacing: 0.05em; }
+        tr:hover { background-color: #f8fafc; }
+    </style>
+</head>
+<body class="bg-slate-100 text-slate-800 font-sans antialiased min-h-screen p-4 md:p-8">
+
+    <div class="max-w-7xl mx-auto space-y-6">
+        
+        <!-- Header Section -->
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200/60 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+            <div>
+                <div class="flex items-center gap-2">
+                    <span class="p-2 bg-blue-50 text-blue-600 rounded-lg text-lg">👕</span>
+                    <h1 class="text-2xl font-bold text-slate-900 tracking-tight">Dashboard Set PT Sultan Amanda Garmindo</h1>
+                </div>
+                <p class="text-xs text-slate-500 mt-1 ml-10">Monitoring Data KDKMP & Summary Transfer PO Papua secara Real-Time</p>
+            </div>
+            <div class="flex items-center gap-3">
+                <span class="text-xs bg-emerald-50 text-emerald-700 border border-emerald-200 px-3 py-1.5 rounded-full font-medium flex items-center gap-2 shadow-sm">
+                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> RTDB Live Connected
+                </span>
+            </div>
+        </div>
+
+        <!-- Summary Cards Section -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/60 flex items-center gap-4">
+                <div class="p-3 bg-blue-50 text-blue-600 rounded-xl text-xl">📦</div>
+                <div>
+                    <p class="text-xs font-medium text-slate-400 uppercase tracking-wider">Kategori Sheet</p>
+                    <h3 class="text-lg font-bold text-slate-800 mt-0.5">Data Set KDKMP</h3>
+                </div>
+            </div>
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/60 flex items-center gap-4">
+                <div class="p-3 bg-indigo-50 text-indigo-600 rounded-xl text-xl">📥</div>
+                <div>
+                    <p class="text-xs font-medium text-slate-400 uppercase tracking-wider">Logistik</p>
+                    <h3 class="text-lg font-bold text-slate-800 mt-0.5">Barang Masuk KDKMP</h3>
+                </div>
+            </div>
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/60 flex items-center gap-4">
+                <div class="p-3 bg-amber-50 text-amber-600 rounded-xl text-xl">🚀</div>
+                <div>
+                    <p class="text-xs font-medium text-slate-400 uppercase tracking-wider">Distribusi</p>
+                    <h3 class="text-lg font-bold text-slate-800 mt-0.5">Transfer PO Papua</h3>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content Card -->
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-200/60 p-6 space-y-6">
+            
+            <!-- Toolbar: Search & Navigation Tabs -->
+            <div class="flex flex-col lg:flex-row justify-between items-stretch lg:items-center gap-4">
+                
+                <!-- Tab Navigasi -->
+                <div class="flex bg-slate-100 p-1.5 rounded-xl gap-1 overflow-x-auto">
+                    <button onclick="switchTab('dataset')" id="btn-dataset" class="tab-btn px-4 py-2.5 rounded-lg text-xs font-semibold bg-white text-blue-600 shadow-sm transition-all whitespace-nowrap">Data Set KDKMP</button>
+                    <button onclick="switchTab('datamasuk')" id="btn-datamasuk" class="tab-btn px-4 py-2.5 rounded-lg text-xs font-semibold text-slate-600 hover:text-slate-900 transition-all whitespace-nowrap">Barang Masuk KDKMP</button>
+                    <button onclick="switchTab('datapapua')" id="btn-datapapua" class="tab-btn px-4 py-2.5 rounded-lg text-xs font-semibold text-slate-600 hover:text-slate-900 transition-all whitespace-nowrap">Summary Transfer PO Papua</button>
+                </div>
+
+                <!-- Kotak Pencarian -->
+                <div class="relative w-full lg:w-80">
+                    <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-slate-400">🔍</span>
+                    <input type="text" id="searchInput" onkeyup="filterTable()" placeholder="Cari data di tabel aktif..." class="w-full bg-slate-50 border border-slate-200 rounded-xl pl-10 pr-4 py-2.5 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all">
+                </div>
+            </div>
+
+            <!-- Tabel Konten -->
+            <div class="border border-slate-200 rounded-xl overflow-hidden">
+                <div id="tab-dataset" class="tab-content overflow-x-auto max-h-[500px]">
+                    <table id="table-dataset"><tbody><tr><td class="text-center py-12 text-slate-400 text-xs">Menghubungkan ke Realtime Database...</td></tr></tbody></table>
+                </div>
+                <div id="tab-datamasuk" class="tab-content overflow-x-auto max-h-[500px] hidden">
+                    <table id="table-datamasuk"><tbody><tr><td class="text-center py-12 text-slate-400 text-xs">Menghubungkan ke Realtime Database...</td></tr></tbody></table>
+                </div>
+                <div id="tab-datapapua" class="tab-content overflow-x-auto max-h-[500px] hidden">
+                    <table id="table-datapapua"><tbody><tr><td class="text-center py-12 text-slate-400 text-xs">Menghubungkan ke Realtime Database...</td></tr></tbody></table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Firebase Realtime Database SDK & Real-Time Script -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+        // Masukkan Konfigurasi Firebase Anda di sini (Pastikan databaseURL ikut disertakan)
+        const firebaseConfig = {
+            apiKey: "AIzaSyCvdEvjoio9sGyYDDQSuxaY-h-mCM6_LuE",
+  	    authDomain: "dashboard-set-pt-sag.firebaseapp.com",
+  	    databaseURL: "https://dashboard-set-pt-sag-default-rtdb.asia-southeast1.firebasedatabase.app",
+  	    projectId: "dashboard-set-pt-sag",
+  	    storageBucket: "dashboard-set-pt-sag.firebasestorage.app",
+  	    messagingSenderId: "153247803608",
+  	    appId: "1:153247803608:web:020f24b415e82234bdcfad",
+  	    measurementId: "G-VQ6MXS6F0D"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        function bindRealtimeTable(nodeName, tableId) {
+            const dbRef = ref(db, nodeName);
+            onValue(dbRef, (snapshot) => {
+                const data = snapshot.val();
+                const table = document.getElementById(tableId);
+
+                if (!data) {
+                    table.innerHTML = '<tr><td class="text-center py-12 text-slate-400 text-xs">Belum ada data. Jalankan sinkronisasi Apps Script.</td></tr>';
+                    return;
+                }
+
+                let rows = [];
+                Object.keys(data).forEach(key => {
+                    rows.push({ id: key, ...data[key] });
+                });
+
+                rows.sort((a, b) => (a.raw_row_index || 0) - (b.raw_row_index || 0));
+
+                if (rows.length === 0) {
+                    table.innerHTML = '<tr><td class="text-center py-12 text-slate-400 text-xs">Data kosong.</td></tr>';
+                    return;
+                }
+
+                let sampleObj = rows[0];
+                let keys = Object.keys(sampleObj).filter(k => k !== 'raw_row_index' && k !== 'id');
+
+                let html = '<thead><tr>';
+                keys.forEach(k => {
+                    let cleanHeader = k.replace(/_/g, ' ').toUpperCase();
+                    html += `<th>${cleanHeader}</th>`;
+                });
+                html += '</tr></thead><tbody>';
+
+                rows.forEach(r => {
+                    html += '<tr>';
+                    keys.forEach(k => {
+                        html += `<td>${r[k] !== undefined ? r[k] : ''}</td>`;
+                    });
+                    html += '</tr>';
+                });
+                html += '</tbody>';
+                table.innerHTML = html;
+            }, (error) => {
+                console.error("RTDB Error:", error);
+                document.getElementById(tableId).innerHTML = `<tr><td class="text-center py-12 text-red-500 text-xs">Gagal memuat: ${error.message}</td></tr>`;
+            });
+        }
+
+        bindRealtimeTable('dataset_kdkmp', 'table-dataset');
+        bindRealtimeTable('barang_masuk_kdkmp', 'table-datamasuk');
+        bindRealtimeTable('summary_papua', 'table-datapapua');
+    </script>
+
+    <script>
+        function switchTab(tab) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.tab-btn').forEach(el => {
+                el.classList.remove('bg-white', 'text-blue-600', 'shadow-sm');
+                el.classList.add('text-slate-600');
+            });
+
+            document.getElementById('tab-' + tab).classList.remove('hidden');
+            const btn = document.getElementById('btn-' + tab);
+            btn.classList.add('bg-white', 'text-blue-600', 'shadow-sm');
+            btn.classList.remove('text-slate-600');
+            
+            document.getElementById('searchInput').value = '';
+            filterTable();
+        }
+
+        function filterTable() {
+            let input = document.getElementById('searchInput').value.toLowerCase();
+            let activeTab = document.querySelector('.tab-content:not(.hidden)');
+            let table = activeTab.querySelector('table');
+            if (!table) return;
+            let tr = table.getElementsByTagName('tr');
+
+            for (let i = 1; i < tr.length; i++) {
+                let td = tr[i].getElementsByTagName('td');
+                let found = false;
+                for (let j = 0; j < td.length; j++) {
+                    if (td[j] && (td[j].textContent || td[j].innerText).toLowerCase().indexOf(input) > -1) {
+                        found = true;
+                        break;
+                    }
+                }
+                tr[i].style.display = found ? '' : 'none';
+            }
+        }
+    </script>
+</body>
+</html>
